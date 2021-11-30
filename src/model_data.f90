@@ -47,38 +47,32 @@ module read_input
 
   ! Attempts to read the arguments from the command line, and sets defaults if
   ! an argument is missing.
-  subroutine init_args()
+  subroutine init_args(err)
     implicit none
+    integer, intent(out) :: err
     logical :: has_nx, has_ny
+
+    err = 0
 
     ! Parse all the command line args and read them
     call parse_args()
 
-    ! attempts to read the problem type, defaulting to null
+    ! attempts to read the problem type
     if (.not.get_arg("problem", problem)) then
-      problem = "null"
-      print"(A, A)", "WARNING: argument 'problem' not received, defaulting to ", problem
+      err = 1
+      print"(A)", "ERROR: argument 'problem' not received"
     endif
 
-    ! attempts to read nx and ny
-    has_nx = get_arg("nx", nx)
-    has_ny = get_arg("ny", ny)
-
-    ! if one has been supplied but not the other, make them equal
-    if (has_nx .and. (.not.has_ny)) then
-      ny = nx
-      print"(A, I0)", "WARNING: argument 'ny' not received, matching nx: ", nx
-    else if (has_ny .and. (.not.has_nx)) then
-      nx = ny
-      print"(A, I0)", "WARNING: argument 'nx' not received, matching ny: ", ny
+    ! attempts to read nx
+    if (.not.get_arg("nx", nx)) then
+      err = 1
+      print"(A)", "ERROR: argument 'nx' not received"
     endif
 
-    ! if neither is supplied then default to 50
-    if ((.not.has_nx) .and. (.not.has_ny)) then
-      nx = 50
-      ny = 50
-      print"(A, I0)", "WARNING: argument 'nx' not received, defaulting to ", nx
-      print"(A, I0)", "WARNING: argument 'ny' not received, defaulting to ", ny
+    ! attempts to read ny
+    if (.not.get_arg("ny", ny)) then
+      err = 1
+      print"(A)", "ERROR: argument 'ny' not received"
     endif
   end subroutine init_args
 
