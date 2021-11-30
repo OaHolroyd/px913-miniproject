@@ -30,8 +30,8 @@ The code outputs the following to a netCDF file:
 
 - charge density (rho)
 - computed potential (phi)
-- x-derivative of the energy field (Ex)
-- y-derivative of the energy field (Ey)
+- x-component of the energy field (Ex)
+- y-component of the energy field (Ey)
 - timeseries of particle positions (x,y)
 - timeseries of particle velocities (ux,uy)
 - timeseries of particle accelerations (ax,ay)
