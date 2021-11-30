@@ -27,6 +27,17 @@ module model_data
 
   contains
 
+  ! allocates space for all of the data
+  subroutine init_arrays()
+    implicit none
+
+    ! pad rho and phi with ghost cells
+    allocate(rho(0:nx+1,0:ny+1))
+    allocate(phi(0:nx+1,0:ny+1))
+    allocate(Ex(nx,ny))
+    allocate(Ey(nx,ny))
+  end subroutine init_arrays
+
 end module model_data
 
 

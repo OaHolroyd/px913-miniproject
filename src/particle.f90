@@ -16,4 +16,6 @@ program particle
   print*, ny
   print*, problem
 
+  call init_arrays()
+
 end program particle
