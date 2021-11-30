@@ -7,6 +7,10 @@
 *.mp4
 *.gif
 
+# Executables
+particle
+test
+
 # Prerequisites
 *.d
 
