@@ -50,7 +50,6 @@ module read_input
   subroutine init_args(err)
     implicit none
     integer, intent(out) :: err
-    logical :: has_nx, has_ny
 
     err = 0
 
