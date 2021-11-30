@@ -7,6 +7,9 @@
 *.mp4
 *.gif
 
+# Test code
+src/test.f90
+
 # Executables
 particle
 test
