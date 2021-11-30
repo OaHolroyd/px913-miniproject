@@ -24,7 +24,7 @@ OBJ_TEST=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC_TEST:.f90=.o)))
 
 
 # might need to use $(LD) $(FFLAGS) -o $(EXE) $(OBJ) $(FLIBS)
-particle: $(OBJ)
+particle: directories $(OBJ)
 	@printf "`tput bold``tput setaf 2`Linking`tput sgr0`\n"
 	$(LD) -o $(EXE) $(OBJ)
 
@@ -34,9 +34,14 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 	$(FC) -J$(SRC_DIR) $(FFLAGS) -c -o $@ $< $(FLIBS)
 
 # build the test file
-test: $(OBJ_TEST)
+test: directories $(OBJ_TEST)
 	@printf "`tput bold``tput setaf 2`Linking`tput sgr0`\n"
 	$(LD) -o $(EXE_TEST) $(OBJ_TEST)
+
+# create required directories
+.PHONY: directories
+directories:
+	mkdir -p $(OBJ_DIR) $(OUT_DIR)
 
 # removes binaries, outputs etc.
 .PHONY: clean
