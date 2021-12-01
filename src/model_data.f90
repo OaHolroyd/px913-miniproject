@@ -52,7 +52,7 @@ module model_data
     call create_axis(y_axis, ny, range, 1, dy)
 
     ! set the charge density depending on the problem
-    rho = 0.0_dp
+    rho = 0.0_dp ! default to null
     if (problem == "single") then
       do i=1,nx
         do j=1,ny
