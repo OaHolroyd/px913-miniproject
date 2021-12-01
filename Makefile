@@ -51,3 +51,6 @@ clean:
 # force rebuild of all files
 .PHONY: all
 all: clean particle
+
+# dependencies
+$(OBJ_DIR)/gauss_seidel.o : $(OBJ_DIR)/model_data.o
