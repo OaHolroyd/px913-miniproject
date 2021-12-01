@@ -6,6 +6,7 @@
 module model_data
 
   use iso_fortran_env
+  use domain_tools
 
   implicit none
   save
@@ -13,8 +14,14 @@ module model_data
   ! define double precision
   integer, parameter :: dp = real64
 
-  ! gridsize
+  ! gridsize/spacing
   integer :: nx, ny
+  real(dp) :: dx, dy
+
+  ! axes
+  real(dp), parameter, dimension(2) :: range = (/ -1.0_dp, 1.0_dp /)
+  real(dp), dimension(:), allocatable :: x_axis
+  real(dp), dimension(:), allocatable :: y_axis
 
   ! problem type
   character(len=6) :: problem
@@ -28,15 +35,41 @@ module model_data
   contains
 
   ! allocates space for all of the data
-  subroutine init_arrays()
+  subroutine init_model_data()
     implicit none
+    integer :: i,j
 
     ! pad rho and phi with ghost cells
     allocate(rho(0:nx+1,0:ny+1))
     allocate(phi(0:nx+1,0:ny+1))
     allocate(Ex(nx,ny))
     allocate(Ey(nx,ny))
-  end subroutine init_arrays
+    allocate(x_axis(0:nx+1))
+    allocate(y_axis(0:nx+1))
+
+    ! set the axes
+    call create_axis(x_axis, nx, range, 1, dx)
+    call create_axis(y_axis, ny, range, 1, dy)
+
+    ! set the charge density depending on the problem
+    rho = 0.0_dp
+    if (problem == "single") then
+      do i=1,nx
+        do j=1,ny
+          ! single peak at (0,0)
+          rho(i,j) = exp(-(x_axis(i)/0.1_dp)**2 - (y_axis(j)/0.1_dp)**2)
+        enddo
+      enddo
+    else if (problem == "double") then
+      do i=1,nx
+        do j=1,ny
+          ! double peak at (-0.25,-0.25) and (0.75,0.75)
+          rho(i,j) = exp(-((x_axis(i)+0.25_dp)/0.1_dp)**2 - ((y_axis(j)+0.25_dp)/0.1_dp)**2) &
+                   + exp(-((x_axis(i)-0.75_dp)/0.2_dp)**2 - ((y_axis(j)+0.75_dp)/0.2_dp)**2)
+        enddo
+      enddo
+    endif
+  end subroutine init_model_data
 
 end module model_data
 
