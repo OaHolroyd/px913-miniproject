@@ -34,7 +34,7 @@ module model_data
 
   contains
 
-  ! allocates space for all of the data
+  ! allocates space for all of the data and set the axes and density
   subroutine init_model_data()
     implicit none
     integer :: i,j
