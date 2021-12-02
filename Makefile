@@ -53,4 +53,6 @@ clean:
 all: clean particle
 
 # dependencies
+
+$(OBJ_DIR)/model_data.o : $(OBJ_DIR)/create_axis.o $(OBJ_DIR)/command_line.o
 $(OBJ_DIR)/gauss_seidel.o : $(OBJ_DIR)/model_data.o
