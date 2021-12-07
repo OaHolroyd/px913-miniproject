@@ -23,11 +23,11 @@ OBJ=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.f90=.o)))
 OBJ_TEST=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC_TEST:.f90=.o)))
 
 
-# might need to use $(LD) $(FFLAGS) -o $(EXE) $(OBJ) $(FLIBS)
+# might need to use $(LD) $(FFLAGS) -o $(EXE) $(OBJ) $(FLIBS)### THIS WAS REQUIRED
 particle: directories $(OBJ)
 	@printf "`tput bold``tput setaf 2`Linking`tput sgr0`\n"
-	$(LD) -o $(EXE) $(OBJ)
-
+	$(LD) $(FFLAGS) -o $(EXE) $(OBJ) $(FLIBS)
+	
 # Build rule for binaries (puts .mod files in SRC_DIR to simplify linting)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 	@printf "`tput bold``tput setaf 6`Building %s`tput sgr0`\n" $@
@@ -54,3 +54,6 @@ all: clean particle
 
 # dependencies
 $(OBJ_DIR)/gauss_seidel.o : $(OBJ_DIR)/model_data.o
+$(OBJ_DIR)/write_netcdf.o : $(OBJ_DIR)/model_data.o
+$(OBJ_DIR)/velocity_verlet.o : $(OBJ_DIR)/model_data.o
+$(OBJ_DIR)/model_data.o : $(OBJ_DIR)/create_axis.o $(OBJ_DIR)/command_line.o

@@ -32,6 +32,19 @@ module model_data
   real(dp), dimension(:,:), allocatable :: Ex
   real(dp), dimension(:,:), allocatable :: Ey
 
+  !Defining a type to hold all the data for the particle:
+  type :: particle_type
+    real(dp), dimension(:,:), allocatable :: pos, vel, acc !position, velocity, acceleration
+  end type
+
+  type(particle_type) :: particle_one
+
+  integer, parameter :: num_of_timesteps = 1000 !set in problem
+  real(dp), parameter :: dt = 0.01_dp, q = -1.0_dp, m =1.0_dp !timestep, charge, mass - all set in problem
+  integer :: count, cell_x, cell_y !coordinates of the cell that the particle is in, for plugging into E
+  integer :: ierr
+  CHARACTER(len = 100) :: filename = "out/netcdf_output.nc" 
+
   contains
 
   ! allocates space for all of the data and set the axes and density
@@ -47,13 +60,27 @@ module model_data
     allocate(x_axis(0:nx+1))
     allocate(y_axis(0:nx+1))
 
+    
+    allocate(particle_one%pos(2,0:num_of_timesteps)) ! dimensions 2 (for x and y)
+    allocate(particle_one%vel(2,0:num_of_timesteps)) ! start from 0 timesteps to include initial
+    allocate(particle_one%acc(2,0:num_of_timesteps))
+
     ! set the axes
     call create_axis(x_axis, nx, range, 1, dx)
     call create_axis(y_axis, ny, range, 1, dy)
 
+
     ! set the charge density depending on the problem
     rho = 0.0_dp ! default to null
+    particle_one%pos(1,0) = 0.0 !initial positions/velocities for "null"
+    particle_one%pos(2,0) = 0.0
+    particle_one%vel(1,0) = 0.1
+    particle_one%vel(2,0) = 0.1
     if (problem == "single") then
+      particle_one%pos(1,0) = 0.1 !initial positions/velocities for "single"
+      particle_one%pos(2,0) = 0.0
+      particle_one%vel(1,0) = 0.0
+      particle_one%vel(2,0) = 0.0
       do i=1,nx
         do j=1,ny
           ! single peak at (0,0)
@@ -61,6 +88,10 @@ module model_data
         enddo
       enddo
     else if (problem == "double") then
+      particle_one%pos(1,0) = 0.0 !initial positions/velocities for "double"
+      particle_one%pos(2,0) = 0.5
+      particle_one%vel(1,0) = 0.0
+      particle_one%vel(2,0) = 0.0
       do i=1,nx
         do j=1,ny
           ! double peak at (-0.25,-0.25) and (0.75,0.75)
@@ -72,7 +103,6 @@ module model_data
   end subroutine init_model_data
 
 end module model_data
-
 
 
 ! ============================================================================ !
@@ -117,6 +147,7 @@ module read_input
       err = 1
       print"(A)", "ERROR: argument 'ny' not received"
     endif
+    
   end subroutine init_args
 
   ! Ensures that the problem parameters contain valid values. Sets err to 1
@@ -137,10 +168,11 @@ module read_input
     endif
 
     ! Convert the bnd key to lowercase and check it is permitted
-    IF (problem /= "null" .and. problem /= "single" .and. problem /= "double") THEN
+    if (problem /= "null" .and. problem /= "single" .and. problem /= "double") then
       print"(A)", "ERROR: 'problem' must be chosen from: 'null', 'single', 'double'"
       err = 1
-    ENDIF
+    endif
+
   end subroutine validate_args
 
 end module read_input

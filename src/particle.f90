@@ -2,7 +2,9 @@ program particle
   use model_data
   use read_input
   use gauss_seidel
-
+  use velocity_verlet
+  use write_netcdf
+  
   implicit none
 
   integer :: err ! error flag
@@ -24,5 +26,11 @@ program particle
   ! generate the scalar potential
   call generate_phi()
   call generate_e()
+
+  !move the particle through 1000 timesteps
+  call move_particle()
+
+  !write data to netcdf for output
+  call writer()
 
 end program particle
