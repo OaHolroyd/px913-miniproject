@@ -30,7 +30,7 @@ module velocity_verlet
       if (cell_x >nx .or. cell_x <1 .or. cell_y >ny .or. cell_y <1) then !exit loop if leaves box !####check this inequality statement
         exit
       end if
-        !note to self - fill remainder of positions array with "nothing" so that it doesnt then plot 0,0,0,0,....
+        !###note to self - fill remainder of positions array with "nothing" so that it doesnt then plot 0,0,0,0,....
     end do   
 
   end subroutine
