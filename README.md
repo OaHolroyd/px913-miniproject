@@ -36,9 +36,12 @@ The code outputs the following to a netCDF file:
 - timeseries of particle velocities (ux,uy)
 - timeseries of particle accelerations (ax,ay)
 
-#### Plotting
+### Plotting
 Once the data has been generated it can be plotted with
 ```bash
-python3 plot.py output.nc
+python3 plot_particle.py
 ```
 which generates a pseudocolour plot of Ex and a scatterplot of particle positions (x,y).
+
+### Run All
+Alternatively a full build, run, plot cycle with default arguments can be run using the shell script `run_all.sh`
