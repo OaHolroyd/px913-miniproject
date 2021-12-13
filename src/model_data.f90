@@ -96,7 +96,7 @@ module model_data
         do j=1,ny
           ! double peak at (-0.25,-0.25) and (0.75,0.75)
           rho(i,j) = exp(-((x_axis(i)+0.25_dp)/0.1_dp)**2 - ((y_axis(j)+0.25_dp)/0.1_dp)**2) &
-                   + exp(-((x_axis(i)-0.75_dp)/0.2_dp)**2 - ((y_axis(j)+0.75_dp)/0.2_dp)**2)
+                   + exp(-((x_axis(i)-0.75_dp)/0.2_dp)**2 - ((y_axis(j)-0.75_dp)/0.2_dp)**2)
         enddo
       enddo
     endif
