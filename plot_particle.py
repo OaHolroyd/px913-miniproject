@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 from matplotlib import colors
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
 import netCDF4 as nc
 
@@ -26,7 +27,9 @@ ax.set_ylabel("y")
 ax.set_xlim(-1, 1)
 ax.set_ylim(-1, 1)
 
-ax.scatter(pos[:, 0], pos[:, 1])
+# plot and save
+ax.scatter(pos[:, 0], pos[:, 1], 0.5, 'r')
+fig.savefig("out/pos.png")
 
 
 # plot Ex as a pseudocolor plot
@@ -38,7 +41,15 @@ ax.set_ylabel("y")
 ax.set_xlim(-1, 1)
 ax.set_ylim(-1, 1)
 
-ax.imshow(Ex, extent=[-1, 1, 1, -1])
+# add axis for the key
+divider = make_axes_locatable(ax)
+axc = divider.append_axes("right", size="5%", pad=0.05)
+
+# plot and save
+# (note that the y-axis has to be reversed)
+im = ax.imshow(Ex, extent=[-1, 1, 1, -1])
+cbar = plt.colorbar(im, axc)
+fig.savefig("out/ex.png")
 
 
 # plot trajectory over phi
@@ -50,9 +61,12 @@ ax.set_ylabel("y")
 ax.set_xlim(-1, 1)
 ax.set_ylim(-1, 1)
 
-ax.imshow(phi, extent=[-1, 1, 1, -1])
-ax.plot(pos[:, 0], pos[:, 1])
+# add axis for the key
+divider = make_axes_locatable(ax)
+axc = divider.append_axes("right", size="5%", pad=0.05)
 
-
-# display plots
-plt.show()
+# plot and save
+im = ax.imshow(phi, extent=[-1, 1, 1, -1])
+cbar = plt.colorbar(im, axc)
+ax.plot(pos[:, 0], pos[:, 1], 'r-')
+fig.savefig("out/phi.png")
