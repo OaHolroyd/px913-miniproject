@@ -64,43 +64,43 @@ module write_netcdf
 
     ! define variable types, matching our array
 
-    ierr = nf90_def_var(file_id, "position", nf90_real, particle_dim_ids, pos_id)
+    ierr = nf90_def_var(file_id, "position", nf90_double, particle_dim_ids, pos_id)
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
       return
     end if
 
-    ierr = nf90_def_var(file_id, "velocity", nf90_real, particle_dim_ids, vel_id)
+    ierr = nf90_def_var(file_id, "velocity", nf90_double, particle_dim_ids, vel_id)
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
       return
     end if
 
-    ierr = nf90_def_var(file_id, "acceleration", nf90_real, particle_dim_ids, acc_id)
+    ierr = nf90_def_var(file_id, "acceleration", nf90_double, particle_dim_ids, acc_id)
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
       return
     end if
 
-    ierr = nf90_def_var(file_id, "rho", nf90_real, one_to_nx_ids, rho_id)
+    ierr = nf90_def_var(file_id, "rho", nf90_double, one_to_nx_ids, rho_id)
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
       return
     end if
 
-    ierr = nf90_def_var(file_id, "phi", nf90_real, one_to_nx_ids, phi_id)
+    ierr = nf90_def_var(file_id, "phi", nf90_double, one_to_nx_ids, phi_id)
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
       return
     end if
 
-    ierr = nf90_def_var(file_id, "Ex", nf90_real, one_to_nx_ids, ex_id)
+    ierr = nf90_def_var(file_id, "Ex", nf90_double, one_to_nx_ids, ex_id)
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
       return
     end if
 
-    ierr = nf90_def_var(file_id, "Ey", nf90_real, one_to_nx_ids, ey_id)
+    ierr = nf90_def_var(file_id, "Ey", nf90_double, one_to_nx_ids, ey_id)
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
       return
