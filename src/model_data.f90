@@ -6,6 +6,7 @@
 module model_data
 
   use iso_fortran_env
+  use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_quiet_nan
   use domain_tools
 
   implicit none
@@ -70,8 +71,9 @@ module model_data
     call create_axis(y_axis, ny, range, 1, dy)
 
 
-    ! set the charge density depending on the problem
+    ! set the parameters depending on the problem
     rho = 0.0_dp ! default to null
+    particle_one%pos = ieee_value(1e0, ieee_quiet_nan) !All positions in array are NaN until overwritten (prevents pos = 0 if particle leaves grid)
     particle_one%pos(1,0) = 0.0 !initial positions/velocities for "null"
     particle_one%pos(2,0) = 0.0
     particle_one%vel(1,0) = 0.1
