@@ -32,9 +32,9 @@ The code outputs the following to a netCDF file:
 - computed potential (phi)
 - x-component of the energy field (Ex)
 - y-component of the energy field (Ey)
-- timeseries of particle positions (x,y)
-- timeseries of particle velocities (ux,uy)
-- timeseries of particle accelerations (ax,ay)
+- timeseries of particle positions (position)
+- timeseries of particle velocities (velocity)
+- timeseries of particle accelerations (acceleration)
 
 ### Plotting
 Once the data has been generated it can be plotted with

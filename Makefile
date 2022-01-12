@@ -23,7 +23,7 @@ OBJ=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.f90=.o)))
 OBJ_TEST=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC_TEST:.f90=.o)))
 
 
-# might need to use $(LD) $(FFLAGS) -o $(EXE) $(OBJ) $(FLIBS)### THIS WAS REQUIRED
+# might need to use $(LD) $(FFLAGS) -o $(EXE) $(OBJ) $(FLIBS) #THIS WAS REQUIRED
 particle: directories $(OBJ)
 	@printf "`tput bold``tput setaf 2`Linking`tput sgr0`\n"
 	$(LD) $(FFLAGS) -o $(EXE) $(OBJ) $(FLIBS)

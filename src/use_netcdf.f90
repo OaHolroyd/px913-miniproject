@@ -12,18 +12,19 @@ module write_netcdf
   subroutine writer() 
 
     integer, dimension(2) :: particle_sizes, particle_dim_ids
-    character(len=1), dimension(2) :: particle_dims=(/"u", "t"/) 
+    character(len=1), dimension(2) :: particle_dims=(/"u", "t"/) !For position, velocity and acceleration 
 
     integer, dimension(2) :: one_to_nx_sizes, one_to_nx_ids
-    character(len=1), dimension(2) :: one_to_nx_dims=(/"x", "y"/) 
+    character(len=1), dimension(2) :: one_to_nx_dims=(/"x", "y"/) !For rho, phi, Ex and Ey
 
     integer :: file_id, pos_id, vel_id, acc_id, i, rho_id, phi_id, ex_id, ey_id
 
-    rho = rho(1:nx,1:ny) !trimming ghost cells off as no longer needed (and to reduce number of dims i need to define)
+    !removing ghost cells as no longer needed
+    rho = rho(1:nx,1:ny) 
     phi = phi(1:nx,1:ny) 
 
-    particle_sizes = shape(particle_one%pos)
-    one_to_nx_sizes = shape(rho)
+    particle_sizes = shape(particle_one%pos) !Position, velocity and acceleration all have same dimensions
+    one_to_nx_sizes = shape(rho) !rho, phi, Ex and Ey all have same dimensions
 
     ! create the file, overwriting if it exists
     ierr = nf90_create(filename, nf90_clobber, file_id)
@@ -55,7 +56,7 @@ module write_netcdf
       end if
     end do
 
-    !global attributes : title, input parameters, file name #TBC
+    !global attribute: title - more could be added here if desired.
     ierr = nf90_put_att(file_id, nf90_global, "title", "Particle in an electric field")
     if (ierr /= nf90_noerr) then
       print*, trim(nf90_strerror(ierr))
